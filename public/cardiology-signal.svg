@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+  <title id="title">Abstract electrocardiogram visualization</title>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#092d55"/><stop offset="1" stop-color="#087b9b"/></linearGradient><radialGradient id="glow"><stop stop-color="#25c4e4" stop-opacity=".34"/><stop offset="1" stop-color="#25c4e4" stop-opacity="0"/></radialGradient><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#fff" stroke-opacity=".09"/></pattern></defs>
+  <rect width="1200" height="800" fill="url(#bg)"/><rect width="1200" height="800" fill="url(#grid)"/><circle cx="870" cy="350" r="440" fill="url(#glow)"/>
+  <path d="M0 420 H165 l34 -2 28 -48 29 132 31 -275 36 192 h56 l28 -37 26 37 h104 l34 -2 28 -48 29 132 31 -275 36 192 h56 l28 -37 26 37 h105 l34 -2 28 -48 29 132 31 -275 36 192 h56 l28 -37 26 37 h110" fill="none" stroke="#6ce0f4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M0 420 H165 l34 -2 28 -48 29 132 31 -275 36 192 h56 l28 -37 26 37 h104 l34 -2 28 -48 29 132 31 -275 36 192 h56 l28 -37 26 37 h105 l34 -2 28 -48 29 132 31 -275 36 192 h56 l28 -37 26 37 h110" fill="none" stroke="#8ef1ff" stroke-width="19" stroke-opacity=".16" stroke-linejoin="round"/>
+  <circle cx="285" cy="420" r="11" fill="#e5fbff"/><circle cx="633" cy="420" r="11" fill="#e5fbff"/><circle cx="983" cy="420" r="11" fill="#e5fbff"/>
+</svg>
