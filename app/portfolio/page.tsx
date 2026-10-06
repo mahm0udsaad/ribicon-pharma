@@ -44,7 +44,7 @@ export default function PortfolioPage() {
               </ul>
             ) : (
               <p>
-                Product names, intended uses, species, and supporting documentation will be
+                Product names, intended uses, and supporting documentation will be
                 added after the portfolio is confirmed.
               </p>
             )}

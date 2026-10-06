@@ -15,8 +15,8 @@ const navigation = {
 
 // Product dropdown: category groups with their products, built from the portfolio data.
 const productMenu = {
-  en: portfolioAreas.filter((area) => area.products.length > 0).map((area) => ({ area, items: products.filter((item) => item.area === area.slug) })),
-  fr: portfolioAreasFr.filter((area) => area.products.length > 0).map((area) => ({ area, items: productsFr.filter((item) => item.area === area.slug) })),
+  en: portfolioAreas.map((area) => ({ area, items: products.filter((item) => item.area === area.slug) })),
+  fr: portfolioAreasFr.map((area) => ({ area, items: productsFr.filter((item) => item.area === area.slug) })),
 };
 
 export function SiteHeader() {

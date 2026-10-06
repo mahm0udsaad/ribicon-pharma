@@ -277,4 +277,16 @@ export const portfolioAreas: PortfolioArea[] = [
     products: [],
     status: "draft",
   },
+  {
+    slug: "infant-formula-children-food",
+    number: "06",
+    title: "Infant Formulas & Children’s Food",
+    eyebrow: "Portfolio in development",
+    summary:
+      "A future range of infant formulas and children’s food. Product information will be published after review.",
+    image: "/therapeutics-editorial.jpg",
+    imageAlt: "Healthcare professional in a clinical laboratory",
+    products: [],
+    status: "draft",
+  },
 ];
