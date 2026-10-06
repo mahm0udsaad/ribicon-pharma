@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 import Image from "next/image";
 import Link from "next/link";
 import { portfolioAreas, products } from "@/lib/content";
@@ -12,14 +13,14 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <>
-      <header className="page-intro shell">
+      <PageHero image="/hero-diagnostics.png">
         <p className="eyebrow">Our portfolio</p>
         <h1 className="display-title">Focused by design.</h1>
         <p>
           A clear view of Ribicon Pharma’s current areas of focus. Detailed product
           information is provided only after appropriate regulatory and medical review.
         </p>
-      </header>
+      </PageHero>
 
       <div className="shell portfolio-stack">
         {portfolioAreas.map((area) => (

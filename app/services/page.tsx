@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -26,14 +27,14 @@ const services = [
 export default function ServicesPage() {
   return (
     <>
-      <header className="page-intro shell">
+      <PageHero image="/ophthalmology-editorial.jpg">
         <p className="eyebrow">Services</p>
         <h1 className="display-title">Partnership is part of the product.</h1>
         <p>
           Ribicon Pharma brings commercial discipline and relationship-led support to
           specialized healthcare portfolios.
         </p>
-      </header>
+      </PageHero>
 
       <section className="shell service-list" aria-label="Ribicon Pharma services">
         {services.map((service) => (

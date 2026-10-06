@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 import Image from "next/image";
 import { ArrowLink } from "@/components/arrow-link";
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <header className="page-intro shell">
+      <PageHero image="/therapeutics-editorial.jpg">
         <p className="eyebrow">About Ribicon Pharma</p>
         <h1 className="display-title">A focused healthcare company with a wider view.</h1>
         <p>
@@ -18,7 +19,7 @@ export default function AboutPage() {
           German-Canadian heritage and a focused portfolio in diagnostics,
           therapeutics, ophthalmology, and cardiology.
         </p>
-      </header>
+      </PageHero>
 
       <section className="section section-blue">
         <div className="shell content-grid">

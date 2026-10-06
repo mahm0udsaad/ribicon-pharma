@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -8,14 +9,14 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <header className="page-intro shell">
+      <PageHero image="/therapeutics-editorial.jpg">
         <p className="eyebrow">Contact</p>
         <h1 className="display-title">Let’s make the conversation useful.</h1>
         <p>
           For portfolio, partnership, company, or product-information inquiries, contact
           Ribicon Pharma directly.
         </p>
-      </header>
+      </PageHero>
 
       <section className="shell contact-grid">
         <div className="contact-primary">
