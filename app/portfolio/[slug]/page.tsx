@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProductDetail } from "@/components/product-detail";
 import { portfolioAreas, products } from "@/lib/content";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -39,18 +40,23 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </header>
 
-      <section className="section shell product-detail" aria-labelledby="context-heading">
-        <div>
-          <p className="eyebrow">Portfolio information</p>
-          <h2 className="section-title" id="context-heading">From the original portfolio.</h2>
-        </div>
-        <div>
-          <span className="status-badge">Content review draft</span>
-          <p>{product.legacyContext}</p>
-          <p className="detail-note">This page preserves the former site’s product context for review. It does not establish current Canadian availability, approved indications, performance, or prescribing information. Request verified documentation before relying on it.</p>
-          <a className="button-primary" href={`mailto:info@ribicongroup.com?subject=${encodeURIComponent(`Information request: ${product.name}`)}`}>Request verified information</a>
-        </div>
-      </section>
+      <ProductDetail
+        product={product}
+        labels={{
+          overviewEyebrow: "Product overview",
+          overviewTitle: "What it is.",
+          howItWorks: "How it works",
+          specsEyebrow: "Specifications",
+          specsTitle: "Key figures.",
+          contextEyebrow: "Portfolio information",
+          contextTitle: "From the original portfolio.",
+          badge: "Content review draft",
+          note: "This page preserves the former site’s product information for review. It does not establish current Canadian availability, approved indications, performance, or prescribing information. Request verified documentation before relying on it.",
+          cta: "Request verified information",
+          ctaSubject: "Information request",
+          legacySource: "View on the former site",
+        }}
+      />
 
       {related.length > 0 && <section className="section section-blue"><div className="shell"><p className="eyebrow">Explore this area</p><h2 className="section-title">Related products</h2><div className="related-products">{related.map((item) => <Link href={`/portfolio/${item.slug}`} key={item.slug}>{item.name}<span aria-hidden="true">↗</span></Link>)}</div></div></section>}
     </>

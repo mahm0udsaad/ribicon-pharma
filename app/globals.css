@@ -1200,3 +1200,53 @@ p {
   .back-link { margin-bottom: 48px; }
   .related-products { grid-template-columns: 1fr; }
 }
+
+/* Product detail: overview, specs, source link */
+.product-overview { display: grid; grid-template-columns: minmax(240px, 420px) 1fr; gap: clamp(40px, 8vw, 120px); align-items: start; }
+.product-figure { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; box-shadow: var(--shadow-soft); }
+.product-figure img { display: block; width: 100%; height: auto; }
+.product-highlights { display: grid; gap: 14px; margin: 28px 0 0; padding: 0; list-style: none; }
+.product-highlights li { position: relative; max-width: 640px; padding-left: 26px; color: var(--muted); font-size: 1.08rem; }
+.product-highlights li::before { position: absolute; top: .7em; left: 0; width: 12px; height: 2px; content: ""; background: var(--brand-cyan); }
+.product-subtitle { margin: 40px 0 10px; font-size: 1.15rem; }
+.product-prose { max-width: 640px; margin: 0; color: var(--muted); }
+.product-second-image img { display: block; width: 100%; max-width: 817px; height: auto; margin-inline: auto; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; }
+.product-specs { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(40px, 8vw, 120px); align-items: start; }
+.spec-note { max-width: 420px; color: var(--muted); font-size: .95rem; }
+.spec-table { margin: 0; border-top: 1px solid var(--line); }
+.spec-table > div { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.spec-table dt { color: var(--muted); }
+.spec-table dd { margin: 0; font-weight: 700; }
+.legacy-source { margin: 0 0 28px; }
+.legacy-source a { color: var(--brand-blue, inherit); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) {
+  .product-overview, .product-specs { grid-template-columns: 1fr; }
+  .product-figure { max-width: 420px; }
+  .spec-table > div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* Products dropdown */
+@media (min-width: 961px) { .site-nav { position: relative; } .nav-dropdown { position: static; } }
+.nav-dropdown-trigger { display: flex; align-items: center; gap: 2px; }
+.nav-dropdown-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 32px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+.nav-dropdown-toggle svg { transition: transform 220ms ease; }
+.nav-dropdown.is-open .nav-dropdown-toggle svg { transform: rotate(180deg); }
+.nav-dropdown-panel {
+  position: absolute; top: 100%; right: 0; z-index: 30; display: none; margin-top: 22px; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 26px 40px;
+  width: max-content; max-width: min(640px, 92vw); padding: 28px 32px; border: 1px solid var(--line); border-radius: var(--radius-md);
+  background: white; box-shadow: var(--shadow-soft); font-weight: 600; letter-spacing: 0;
+}
+.nav-dropdown.is-open .nav-dropdown-panel { display: grid; }
+@media (min-width: 961px) { .nav-dropdown:hover .nav-dropdown-panel { display: grid; } .nav-dropdown:hover .nav-dropdown-toggle svg { transform: rotate(180deg); } }
+.nav-dropdown-panel::before { position: absolute; top: -22px; right: 0; left: 0; height: 22px; content: ""; }
+.nav-dropdown-panel ul { display: grid; gap: 2px; margin: 8px 0 0; padding: 0; list-style: none; }
+.site-nav .nav-dropdown-heading { display: block; padding-block: 4px; color: var(--brand-navy-dark); font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.site-nav .nav-dropdown-panel a { padding-block: 6px; color: var(--muted); }
+.site-nav .nav-dropdown-panel a:hover, .site-nav .nav-dropdown-panel a[aria-current="page"] { color: var(--brand-cyan); }
+.site-nav .nav-dropdown-panel a::after { display: none; }
+@media (max-width: 960px) {
+  .nav-dropdown-trigger { justify-content: space-between; }
+  .nav-dropdown-toggle { width: 44px; height: 44px; }
+  .nav-dropdown-panel { position: static; width: auto; max-width: none; grid-template-columns: 1fr; gap: 18px; padding: 8px 0 12px 14px; border: 0; border-left: 2px solid var(--line); border-radius: 0; box-shadow: none; margin-top: 0; }
+  .nav-dropdown-panel::before { display: none; }
+}
