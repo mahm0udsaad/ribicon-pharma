@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Product } from "@/lib/content";
+import type { Product } from "@/lib/types";
 
 export type ProductDetailLabels = {
   overviewEyebrow: string;
@@ -16,7 +16,7 @@ export type ProductDetailLabels = {
   legacySource: string;
 };
 
-export function ProductDetail({ product, labels }: { product: Product; labels: ProductDetailLabels }) {
+export function ProductDetail({ product, labels, email }: { product: Product; labels: ProductDetailLabels; email: string }) {
   return (
     <>
       <section className="section shell product-overview" aria-labelledby="overview-heading">
@@ -71,7 +71,7 @@ export function ProductDetail({ product, labels }: { product: Product; labels: P
           <p>{product.legacyContext}</p>
           <p className="detail-note">{labels.note}</p>
           <p className="legacy-source"><a href={product.legacyUrl} rel="noopener noreferrer" target="_blank">{labels.legacySource} ↗</a></p>
-          <a className="button-primary" href={`mailto:info@ribicongroup.com?subject=${encodeURIComponent(`${labels.ctaSubject}: ${product.name}`)}`}>{labels.cta}</a>
+          <a className="button-primary" href={`mailto:${email}?subject=${encodeURIComponent(`${labels.ctaSubject}: ${product.name}`)}`}>{labels.cta}</a>
         </div>
       </section>
     </>

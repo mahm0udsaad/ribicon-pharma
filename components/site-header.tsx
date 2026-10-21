@@ -1,28 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { portfolioAreas, products } from "@/lib/content";
-import { portfolioAreasFr, productsFr } from "@/lib/content-fr";
+import type { ProductMenu } from "@/lib/data";
+import type { SiteChrome } from "@/lib/chrome";
 import { isFrenchPath, localizedPath } from "@/lib/locale";
 
-const navigation = {
-  en: [{ path: "/about", label: "About" }, { path: "/portfolio", label: "Products" }, { path: "/services", label: "Services" }, { path: "/contact", label: "Contact" }],
-  fr: [{ path: "/about", label: "À propos" }, { path: "/portfolio", label: "Produits" }, { path: "/services", label: "Services" }, { path: "/contact", label: "Contact" }],
-};
-
-// Product dropdown: category groups with their products, built from the portfolio data.
-const productMenu = {
-  en: portfolioAreas.map((area) => ({ area, items: products.filter((item) => item.area === area.slug) })),
-  fr: portfolioAreasFr.map((area) => ({ area, items: productsFr.filter((item) => item.area === area.slug) })),
-};
-
-export function SiteHeader() {
+// Product dropdown: category groups with their products, loaded from the database by the site layout.
+export function SiteHeader({ productMenu, chrome }: { productMenu: Record<"en" | "fr", ProductMenu>; chrome: Record<"en" | "fr", SiteChrome> }) {
   const pathname = usePathname();
   const french = isFrenchPath(pathname);
   const locale = french ? "fr" : "en";
+  const c = chrome[locale];
+  const navigation = [
+    { path: "/about", label: c.nav.about },
+    { path: "/portfolio", label: c.nav.products },
+    { path: "/services", label: c.nav.services },
+    { path: "/contact", label: c.nav.contact },
+  ];
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -43,14 +39,9 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="shell header-inner">
-        <Link className="brand" href={french ? "/fr" : "/"} aria-label={french ? "Accueil Ribicon Pharma" : "Ribicon Pharma home"}>
-          <Image
-            src="/ribicon-pharma-logo.png"
-            alt="Ribicon Pharma"
-            width={418}
-            height={251}
-            priority
-          />
+        <Link className="brand" href={french ? "/fr" : "/"} aria-label={french ? `Accueil ${c.name}` : `${c.name} home`}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- logo is admin-uploaded; CSS sets its size */}
+          <img src={c.logo} alt={c.name} />
         </Link>
 
         <button
@@ -70,7 +61,7 @@ export function SiteHeader() {
           className={`site-nav ${open ? "is-open" : ""}`}
           aria-label={french ? "Navigation principale" : "Primary navigation"}
         >
-          {navigation[locale].map((item) => {
+          {navigation.map((item) => {
             const href = localizedPath(item.path, locale);
             const link = (
               <Link
@@ -126,7 +117,7 @@ export function SiteHeader() {
             <Link href={localizedPath(pathname, "en")} lang="en-CA" aria-current={!french ? "page" : undefined} onClick={closeMenus}>EN</Link>
           </div>
           <Link className="nav-cta" href={localizedPath("/contact", locale)} onClick={closeMenus}>
-            {french ? "Devenir partenaire" : "Partner with us"}
+            {c.nav.cta}
           </Link>
         </nav>
       </div>

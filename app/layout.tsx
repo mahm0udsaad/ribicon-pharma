@@ -1,8 +1,4 @@
 import type { Metadata } from "next";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { MotionController } from "@/components/motion-controller";
-import { LocaleDocument } from "@/components/locale-document";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,13 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-CA">
-      <body>
-        <MotionController />
-        <LocaleDocument />
-        <SiteHeader />
-        <main id="main-content">{children}</main>
-        <SiteFooter />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

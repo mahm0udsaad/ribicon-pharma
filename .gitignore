@@ -4,3 +4,8 @@ node_modules/
 *.log
 .env*
 !.env.example
+ribicon-site.*
+ribicon-app.tar.gz
+/out/
+uploads/
+*.tsbuildinfo
