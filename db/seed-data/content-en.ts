@@ -1,4 +1,7 @@
-import type { PortfolioArea, Product } from "@/lib/types";
+import type { PortfolioArea, Product as SiteProduct } from "@/lib/types";
+
+// Seed records also keep the page they came from on the former site (stored in products.legacy_url).
+export type Product = SiteProduct & { legacyUrl: string };
 
 // Source: ribicongroup.com product pages (flat .html pages and product images). Summaries are
 // paraphrased and review drafts, not approved Canadian medical or promotional copy.

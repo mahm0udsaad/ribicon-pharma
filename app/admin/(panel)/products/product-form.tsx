@@ -19,7 +19,6 @@ export function ProductForm({ row, categories, nextPosition = 0 }: { row?: Produ
             </select>
           </label>
           <TextField name="position" label="Order within category" type="number" defaultValue={row?.position ?? nextPosition} />
-          <TextField name="legacy_url" label="Former site link (optional)" type="url" defaultValue={row?.legacy_url} />
         </div>
         <Checkbox name="published" label="Published (visible on the website)" defaultChecked={row ? row.published === 1 : true} />
       </section>

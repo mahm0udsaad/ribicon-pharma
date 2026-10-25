@@ -258,7 +258,6 @@ export const contentPages: PageDef[] = [
           { key: "product.note", label: "Notice", kind: "textarea", en: "This page preserves the former site’s product information for review. It does not establish current Canadian availability, approved indications, performance, or prescribing information. Request verified documentation before relying on it.", fr: "Cette page conserve l’information produit de l’ancien site à des fins de révision. Elle ne confirme pas la disponibilité au Canada, les indications approuvées, les performances ni les renseignements thérapeutiques. Demandez la documentation vérifiée avant de vous y fier." },
           { key: "product.cta", label: "Button", kind: "text", en: "Request verified information", fr: "Demander l’information vérifiée" },
           { key: "product.cta_subject", label: "Email subject (product name is added)", kind: "text", en: "Information request", fr: "Demande d’information" },
-          { key: "product.legacy_source", label: "Former-site link", kind: "text", en: "View on the former site", fr: "Voir sur l’ancien site" },
           { key: "product.related_eyebrow", label: "Related products label", kind: "text", en: "Explore this area", fr: "Explorer ce domaine" },
           { key: "product.related_title", label: "Related products heading", kind: "text", en: "Related products", fr: "Produits connexes" },
         ],

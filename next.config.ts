@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
   experimental: {
     // Admin image uploads go through Server Actions (a cropped image plus its original).
     serverActions: { bodySizeLimit: "20mb" },
+    // proxy.ts runs on /admin, and by default it silently cuts request bodies at 10 MB — which broke
+    // large image uploads before they reached the Server Action. Keep this in step with the limit above.
+    proxyClientMaxBodySize: "20mb",
   },
 };
 

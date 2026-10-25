@@ -29,7 +29,7 @@ export async function saveProduct(id: number | null, _state: FormState, form: Fo
 
     const row: Record<string, unknown> = {
       slug, category_id: int(form, "category_id"), position: int(form, "position"), published: checked(form, "published") ? 1 : 0,
-      legacy_url: text(form, "legacy_url"), image: image.src, image_width: width, image_height: height,
+      image: image.src, image_width: width, image_height: height,
       second_image: second.src, second_image_width: second.width, second_image_height: second.height,
       ...names, ...localized("category_label"), ...localized("overview"), ...localized("legacy_context"), ...localized("image_alt"),
       second_image_alt_en: optionalText(form, "second_image_alt_en"), second_image_alt_fr: optionalText(form, "second_image_alt_fr"),

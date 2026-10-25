@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "react-image-crop/dist/ReactCrop.css";
 import "./admin.css";
 
 export const metadata: Metadata = {

@@ -19,7 +19,6 @@ export type Product = {
   category: string;
   overview: string;
   legacyContext: string;
-  legacyUrl: string;
   image: string;
   imageWidth: number;
   imageHeight: number;

@@ -49,7 +49,6 @@ export async function ProductPage({ slug, locale }: { slug: string; locale: Loca
           note: c.t("product.note"),
           cta: c.t("product.cta"),
           ctaSubject: c.t("product.cta_subject"),
-          legacySource: c.t("product.legacy_source"),
         }}
       />
 

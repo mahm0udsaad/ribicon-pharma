@@ -13,7 +13,6 @@ export type ProductDetailLabels = {
   note: string;
   cta: string;
   ctaSubject: string;
-  legacySource: string;
 };
 
 export function ProductDetail({ product, labels, email }: { product: Product; labels: ProductDetailLabels; email: string }) {
@@ -70,7 +69,6 @@ export function ProductDetail({ product, labels, email }: { product: Product; la
           <span className="status-badge">{labels.badge}</span>
           <p>{product.legacyContext}</p>
           <p className="detail-note">{labels.note}</p>
-          <p className="legacy-source"><a href={product.legacyUrl} rel="noopener noreferrer" target="_blank">{labels.legacySource} ↗</a></p>
           <a className="button-primary" href={`mailto:${email}?subject=${encodeURIComponent(`${labels.ctaSubject}: ${product.name}`)}`}>{labels.cta}</a>
         </div>
       </section>

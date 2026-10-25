@@ -17,7 +17,6 @@ function toProduct(row: Row, locale: Locale): Product {
     category: str(l("category_label")),
     overview: str(l("overview")),
     legacyContext: str(l("legacy_context")),
-    legacyUrl: str(row.legacy_url),
     image: str(row.image),
     imageWidth: Number(row.image_width) || 0,
     imageHeight: Number(row.image_height) || 0,

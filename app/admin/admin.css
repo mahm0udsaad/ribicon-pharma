@@ -126,7 +126,6 @@
 .image-field-preview { position: relative; display: grid; place-items: center; min-height: 120px; overflow: hidden; border: 1px solid var(--a-border); border-radius: 12px; background: repeating-conic-gradient(#f1f4f8 0 25%, #fff 0 50%) 0 0 / 16px 16px; }
 .image-field.is-free .image-field-preview { max-height: 240px; }
 .image-field-preview img { width: 100%; height: 100%; max-height: 240px; object-fit: contain; }
-.image-field:not(.is-free) .image-field-preview img { object-fit: cover; }
 .image-field-empty { color: var(--a-muted); font-size: 0.85rem; }
 .image-field-badge { position: absolute; top: 8px; left: 8px; padding: 2px 8px; border-radius: 6px; background: #fdf3e2; color: #9a6206; font-size: 0.72rem; font-weight: 700; }
 .image-field-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
@@ -138,10 +137,11 @@
 .crop-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--a-border); }
 .crop-header strong { display: block; color: var(--brand-navy-dark); }
 .crop-header span { font-size: 0.85rem; }
-.crop-stage { position: relative; min-height: 280px; background: #0f172a; }
+.crop-stage { display: grid; place-items: center; min-height: 280px; padding: 20px; overflow: auto; background: #0f172a; }
+.crop-stage .ReactCrop { max-width: 100%; }
+.crop-stage img { display: block; max-width: 100%; max-height: calc(min(760px, 100vh - 32px) - 190px); }
+.crop-size { font-size: 0.85rem; font-variant-numeric: tabular-nums; }
 .crop-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; padding: 14px 18px; border-top: 1px solid var(--a-border); }
-.crop-zoom { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; color: #344256; }
-.crop-zoom input { width: 180px; accent-color: var(--a-accent); }
 .crop-shapes { display: flex; flex-wrap: wrap; gap: 4px; padding: 3px; border-radius: 10px; background: var(--a-bg); }
 .crop-shapes button { padding: 5px 10px; border: 0; border-radius: 8px; background: none; color: #475569; font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
 .crop-shapes button.is-active { background: white; color: var(--a-accent); box-shadow: var(--a-shadow); }
@@ -171,5 +171,4 @@
   .admin-sidebar-foot { display: flex; margin: 0 0 0 auto; padding: 0; border: 0; }
   .admin-grid-2, .image-field { grid-template-columns: 1fr; }
   .admin-main { padding-top: 20px; }
-  .crop-zoom input { width: 120px; }
 }

@@ -1,5 +1,5 @@
-import type { PortfolioArea, Product } from "@/lib/types";
-import { products } from "./content-en";
+import type { PortfolioArea } from "@/lib/types";
+import { products, type Product } from "./content-en";
 
 // Language-independent fields (legacy URL, image path and size) are shared with the English data.
 const shared = (slug: string) => {

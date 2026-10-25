@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import Cropper, { type Area } from "react-easy-crop";
+import { useEffect, useRef, useState } from "react";
+import ReactCrop, { centerCrop, makeAspectCrop, type PercentCrop } from "react-image-crop";
 
 // Image picker + cropper for admin forms. The server reads these inputs in lib/form.ts imageInput():
 //   `${name}`              current image path (kept when nothing changes)
@@ -15,12 +15,16 @@ type Props = {
   current?: string | null;
   /** Uncropped original of `current`, for re-cropping without quality loss. */
   source?: string | null;
-  /** Fixed crop shape (width / height). Omit to let the admin pick a shape. */
+  /** Recommended crop shape (width / height) for where the image appears. The admin can still pick another shape or crop freely. */
   aspect?: number;
   hint?: string;
 };
 
-const PRESETS: { label: string; value: number | "original" }[] = [
+type Shape = number | "free" | "original";
+type Area = { x: number; y: number; width: number; height: number };
+
+const PRESETS: { label: string; value: Shape }[] = [
+  { label: "Free", value: "free" },
   { label: "Original", value: "original" },
   { label: "Square", value: 1 },
   { label: "4:3", value: 4 / 3 },
@@ -80,11 +84,9 @@ export function ImageCropField({ name, label, current, source, aspect, hint }: P
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropType, setCropType] = useState("image/jpeg");
   const [pendingOriginal, setPendingOriginal] = useState<File | null>(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [shape, setShape] = useState<number | "original">(aspect ?? "original");
-  const [naturalRatio, setNaturalRatio] = useState(1);
-  const [area, setArea] = useState<Area | null>(null);
+  const [crop, setCrop] = useState<PercentCrop>();
+  const [shape, setShape] = useState<Shape>(aspect ?? "free");
+  const [natural, setNatural] = useState<{ width: number; height: number } | null>(null);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => () => { if (preview?.startsWith("blob:")) URL.revokeObjectURL(preview); }, [preview]);
@@ -101,9 +103,24 @@ export function ImageCropField({ name, label, current, source, aspect, hint }: P
     setCropSrc(src);
     setCropType(type === "image/png" ? "image/png" : "image/jpeg");
     setPendingOriginal(original);
-    setCrop({ x: 0, y: 0 });
-    setZoom(1);
-    setShape(aspect ?? "original");
+    setCrop(undefined);
+    setNatural(null);
+    setShape(aspect ?? "free");
+  };
+
+  const ratioFor = (value: Shape, size = natural) =>
+    value === "free" ? undefined : value === "original" ? (size ? size.width / size.height : undefined) : value;
+
+  // A centred selection covering as much of the image as the shape allows.
+  const initialCrop = (value: Shape, size: { width: number; height: number }): PercentCrop => {
+    const ratio = ratioFor(value, size);
+    if (!ratio) return { unit: "%", x: 5, y: 5, width: 90, height: 90 };
+    return centerCrop(makeAspectCrop({ unit: "%", width: 100 }, ratio, size.width, size.height), size.width, size.height);
+  };
+
+  const chooseShape = (value: Shape) => {
+    setShape(value);
+    if (natural) setCrop(initialCrop(value, natural));
   };
 
   const onPick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +138,10 @@ export function ImageCropField({ name, label, current, source, aspect, hint }: P
     openCropper(src, /\.png$/i.test(src) ? "image/png" : "image/jpeg", null);
   };
 
-  const onCropComplete = useCallback((_: Area, pixels: Area) => setArea(pixels), []);
+  // The selection in the image's real pixels.
+  const area: Area | null = crop && natural && crop.width > 0 && crop.height > 0
+    ? { x: (crop.x / 100) * natural.width, y: (crop.y / 100) * natural.height, width: (crop.width / 100) * natural.width, height: (crop.height / 100) * natural.height }
+    : null;
 
   const apply = async () => {
     if (!cropSrc || !area) return;
@@ -154,7 +174,6 @@ export function ImageCropField({ name, label, current, source, aspect, hint }: P
     setChanged(false);
   };
 
-  const cropAspect = shape === "original" ? naturalRatio : shape;
 
   return (
     <div className="admin-field">
@@ -179,7 +198,7 @@ export function ImageCropField({ name, label, current, source, aspect, hint }: P
             </button>
           ) : null}
           {changed ? <button type="button" className="admin-btn-ghost" onClick={undo}>Undo</button> : null}
-          {aspect ? <small className="admin-muted">Shape: {aspectLabel(aspect)}</small> : null}
+          {aspect ? <small className="admin-muted">Recommended shape: {aspectLabel(aspect)} — you can also crop freely.</small> : null}
         </div>
       </div>
       {hint ? <small>{hint}</small> : null}
@@ -197,38 +216,46 @@ export function ImageCropField({ name, label, current, source, aspect, hint }: P
             <header className="crop-header">
               <div>
                 <strong>Crop image</strong>
-                <span className="admin-muted">Drag to move · scroll or use the slider to zoom</span>
+                <span className="admin-muted">Drag the box to move it · drag its edges or corners to resize</span>
               </div>
               <button type="button" className="admin-icon-btn" aria-label="Close" onClick={() => setCropSrc(null)}>×</button>
             </header>
             <div className="crop-stage">
-              <Cropper
-                image={cropSrc}
+              <ReactCrop
                 crop={crop}
-                zoom={zoom}
-                aspect={cropAspect}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-                onMediaLoaded={(media) => setNaturalRatio(media.naturalWidth / media.naturalHeight)}
-                showGrid
-                objectFit="contain"
-              />
+                aspect={ratioFor(shape)}
+                keepSelection
+                ruleOfThirds
+                minWidth={20}
+                minHeight={20}
+                onChange={(_, percent) => setCrop(percent)}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={cropSrc}
+                  alt=""
+                  onLoad={(event) => {
+                    const { naturalWidth: width, naturalHeight: height } = event.currentTarget;
+                    setNatural({ width, height });
+                    setCrop(initialCrop(shape, { width, height }));
+                  }}
+                />
+              </ReactCrop>
             </div>
             <footer className="crop-footer">
-              <label className="crop-zoom">
-                <span>Zoom</span>
-                <input type="range" min={1} max={4} step={0.01} value={zoom} onChange={(event) => setZoom(Number(event.target.value))} />
-              </label>
-              {aspect ? null : (
-                <div className="crop-shapes" role="group" aria-label="Shape">
-                  {PRESETS.map((preset) => (
-                    <button type="button" key={preset.label} className={shape === preset.value ? "is-active" : undefined} onClick={() => setShape(preset.value)}>
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <div className="crop-shapes" role="group" aria-label="Shape">
+                {aspect ? (
+                  <button type="button" className={shape === aspect ? "is-active" : undefined} onClick={() => chooseShape(aspect)}>
+                    Recommended
+                  </button>
+                ) : null}
+                {PRESETS.map((preset) => (
+                  <button type="button" key={preset.label} className={shape === preset.value ? "is-active" : undefined} onClick={() => chooseShape(preset.value)}>
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+              {area ? <span className="crop-size admin-muted">{Math.round(area.width)} × {Math.round(area.height)} px</span> : null}
               <div className="crop-buttons">
                 <button type="button" className="admin-btn-secondary" onClick={() => setCropSrc(null)}>Cancel</button>
                 <button type="button" className="admin-btn" onClick={apply} disabled={busy || !area}>{busy ? "Cropping…" : "Use this crop"}</button>
